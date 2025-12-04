@@ -12,7 +12,8 @@
     "tauri:build": "tauri build"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.5.3"
+    "@tauri-apps/api": "^1.5.3",
+    "@flow/shared": "file:../shared"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
