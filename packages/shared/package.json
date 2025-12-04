@@ -1,0 +1,13 @@
+{
+  "name": "@flow/shared",
+  "version": "0.1.0",
+  "description": "Shared code for Flow Kanban",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
