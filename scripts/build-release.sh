@@ -15,8 +15,8 @@ if [ ! -f "package.json" ]; then
     exit 1
 fi
 
-# Get current version from tauri.conf.json
-CURRENT_VERSION=$(grep -o '"version": "[^"]*"' packages/desktop/src-tauri/tauri.conf.json | cut -d'"' -f4)
+# Get current version from tauri.conf.json (Tauri v1 format)
+CURRENT_VERSION=$(grep -o '"version": "[^"]*"' packages/desktop/src-tauri/tauri.conf.json | head -1 | cut -d'"' -f4)
 echo "📦 Current version: $CURRENT_VERSION"
 echo ""
 
@@ -25,7 +25,7 @@ read -p "Do you want to update the version? (y/n): " UPDATE_VERSION
 if [[ $UPDATE_VERSION =~ ^[Yy]$ ]]; then
     read -p "Enter new version (e.g., 0.2.0): " NEW_VERSION
     
-    # Update version in tauri.conf.json (macOS compatible)
+    # Update version in tauri.conf.json (macOS compatible, Tauri v1 format)
     if [[ "$OSTYPE" == "darwin"* ]]; then
         sed -i '' "s/\"version\": \"$CURRENT_VERSION\"/\"version\": \"$NEW_VERSION\"/" packages/desktop/src-tauri/tauri.conf.json
     else

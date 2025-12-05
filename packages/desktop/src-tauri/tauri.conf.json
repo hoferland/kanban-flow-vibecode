@@ -1,15 +1,50 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Flow",
-  "version": "0.1.0",
-  "identifier": "com.flow.kanban",
   "build": {
     "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:5173",
     "beforeBuildCommand": "npm run build",
-    "frontendDist": "../dist"
+    "devPath": "http://localhost:5173",
+    "distDir": "../dist"
   },
-  "app": {
+  "package": {
+    "productName": "Flow",
+    "version": "0.1.1"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false,
+      "dialog": {
+        "open": true,
+        "save": true
+      },
+      "fs": {
+        "all": true,
+        "scope": ["$APPDATA/*", "$RESOURCE/*"]
+      },
+      "path": {
+        "all": true
+      },
+      "shell": {
+        "open": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "com.flow.kanban",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "category": "Productivity",
+      "shortDescription": "Personal Kanban Board",
+      "longDescription": "A personal Kanban board for UX designers managing multiple teams"
+    },
+    "security": {
+      "csp": null
+    },
     "windows": [
       {
         "title": "Flow - Personal Kanban",
@@ -21,29 +56,10 @@
         "fullscreen": false
       }
     ],
-    "security": {
-      "csp": null
-    }
-  },
-  "bundle": {
-    "active": true,
-    "targets": "all",
-    "icon": [
-      "icons/32x32.png",
-      "icons/128x128.png",
-      "icons/128x128@2x.png",
-      "icons/icon.icns",
-      "icons/icon.ico"
-    ],
-    "category": "Productivity",
-    "shortDescription": "Personal Kanban Board",
-    "longDescription": "A personal Kanban board for UX designers managing multiple teams"
-  },
-  "plugins": {
     "updater": {
       "active": true,
       "endpoints": [
-        "https://github.com/hoferland/first-repo/releases/latest/download/latest.json"
+        "https://github.com/hoferland/kanban-flow-vibecode/releases/latest/download/latest.json"
       ],
       "dialog": false,
       "pubkey": ""
