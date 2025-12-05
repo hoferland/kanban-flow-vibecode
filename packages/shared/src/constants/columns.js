@@ -11,8 +11,8 @@ export const COLUMNS = [
 ];
 
 export const AREAS = [
-  { id: 'team-a', label: 'Team A', color: '#d4e4f0' },
-  { id: 'team-b', label: 'Team B', color: '#d4e8d4' },
+  { id: 'team-a', label: 'SD Team', color: '#d4e4f0' },
+  { id: 'team-b', label: 'TM Team', color: '#d4e8d4' },
   { id: 'cross-team', label: 'Cross-team', color: '#f0dcc8' },
   { id: 'other', label: 'Other', color: '#e8e4db' }
 ];

@@ -1,24 +1,24 @@
 {
-  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
+  "$schema": "https://schema.tauri.app/config/2",
   "productName": "Flow",
   "version": "0.1.0",
   "identifier": "com.flow.kanban",
   "build": {
     "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build",
     "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
     "frontendDist": "../dist"
   },
   "app": {
     "windows": [
       {
-        "fullscreen": false,
+        "title": "Flow - Personal Kanban",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 800,
+        "minHeight": 600,
         "resizable": true,
-        "title": "Flow",
-        "width": 1400,
-        "height": 900,
-        "minWidth": 1000,
-        "minHeight": 600
+        "fullscreen": false
       }
     ],
     "security": {
@@ -34,7 +34,19 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
-    ]
+    ],
+    "category": "Productivity",
+    "shortDescription": "Personal Kanban Board",
+    "longDescription": "A personal Kanban board for UX designers managing multiple teams"
   },
-  "plugins": {}
+  "plugins": {
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://github.com/hoferland/first-repo/releases/latest/download/latest.json"
+      ],
+      "dialog": false,
+      "pubkey": ""
+    }
+  }
 }

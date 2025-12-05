@@ -1,28 +1,22 @@
 {
-  "name": "flow-kanban",
+  "name": "flow-desktop",
   "version": "0.1.0",
-  "description": "Personal Kanban app for UX designers",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "type": "module",
   "scripts": {
-    "dev:desktop": "npm run dev --workspace=packages/desktop",
-    "dev:mobile": "npm run dev --workspace=packages/mobile",
-    "build:desktop": "npm run build --workspace=packages/desktop",
-    "build:mobile": "npm run build --workspace=packages/mobile",
-    "test": "npm run test --workspaces",
-    "lint": "npm run lint --workspaces"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build"
   },
-  "keywords": [
-    "kanban",
-    "productivity",
-    "personal",
-    "task-management"
-  ],
-  "author": "Your Name",
-  "license": "MIT",
+  "dependencies": {
+    "@tauri-apps/api": "^1.5.3"
+  },
   "devDependencies": {
-    "@types/node": "^20.11.0"
+    "@sveltejs/vite-plugin-svelte": "^3.0.1",
+    "@tauri-apps/cli": "^1.5.9",
+    "svelte": "^4.2.8",
+    "vite": "^5.0.11"
   }
 }
