@@ -29,14 +29,12 @@
     },
     "bundle": {
       "active": true,
-      "targets": "all",
+      "targets": ["app", "updater"],
       "identifier": "com.flow.kanban",
       "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
+        "icons/favicon-32x32.png",
+        "icons/android-icon-192x192.png",
+        "icons/favicon.ico"
       ],
       "category": "Productivity",
       "shortDescription": "Personal Kanban Board",
@@ -62,7 +60,7 @@
         "https://github.com/hoferland/kanban-flow-vibecode/releases/latest/download/latest.json"
       ],
       "dialog": false,
-      "pubkey": ""
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDYwRUU3RDM5OTZCQ0FBRUQKUldUdHFyeVdPWDN1WU11bVNJd3R4RWdtRDhpQVpWOXlmNEtyZ2cwNjE4eTJVb3gyUmNhN3R3Y2wK"
     }
   }
 }
