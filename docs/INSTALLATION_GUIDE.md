@@ -29,11 +29,27 @@ Flow is a desktop app that helps you organize your design tasks across multiple 
 
 Because Flow isn't signed with an Apple Developer certificate, you need to do this **one time**:
 
+#### Option 1: Using Finder (Easiest)
+
 1. Open **Applications** folder
 2. **Right-click** (or Control-click) on **Flow**
 3. Select **"Open"** from the menu
 4. A dialog appears saying "Flow is from an unidentified developer"
 5. Click **"Open"** to confirm
+
+#### Option 2: Using Terminal (If Option 1 doesn't work)
+
+If the app still won't open, you may need to remove the quarantine attribute:
+
+1. Open **Terminal** (Applications → Utilities → Terminal)
+2. Copy and paste this command:
+   ```bash
+   xattr -cr /Applications/Flow.app
+   ```
+3. Press **Enter**
+4. Now try opening Flow normally
+
+> **What does this do?** This command removes macOS's quarantine flag from the app, which prevents it from being blocked. It's safe and only affects this one app.
 
 After this first time, you can open Flow normally by double-clicking.
 
@@ -123,12 +139,20 @@ While your data is safe, you can manually export it:
 
 ### "Flow can't be opened because it is from an unidentified developer"
 
-**Solution**:
+**Solution 1** - Using System Settings:
 1. Open **System Settings** → **Privacy & Security**
 2. Scroll down to the Security section
 3. Find the message about Flow being blocked
 4. Click **"Open Anyway"**
 5. Confirm by clicking **"Open"**
+
+**Solution 2** - Using Terminal (if the above doesn't work):
+1. Open **Terminal** (Applications → Utilities → Terminal)
+2. Run this command:
+   ```bash
+   xattr -cr /Applications/Flow.app
+   ```
+3. Try opening Flow again
 
 ### App Won't Open
 
