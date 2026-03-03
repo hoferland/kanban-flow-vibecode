@@ -1,85 +1,123 @@
-# Database Layer (Future Feature)
+# Database Layer
 
-⚠️ **This database layer is NOT currently used by the application.**
+✅ **This database layer IS actively used by the application.**
 
 ---
 
 ## Current Status
 
 - **Implementation:** Complete Rust SQLite module
-- **Connected:** No - not integrated with app
-- **Used By:** Nothing (as of v0.2.x)
-- **Status:** Prepared for future sync features
+- **Connected:** Yes - integrated with app via Tauri commands
+- **Used By:** All data stores (cards, columns, attributes)
+- **Status:** Production - primary data persistence mechanism
 
 ---
 
 ## Purpose
 
-This module provides SQLite database functionality for **future** synchronization features:
+This module provides SQLite database functionality for the application's data persistence:
 
-### Planned Use Cases (v1.0+)
+### Current Use Cases
+
+- **Card management** - Store and retrieve kanban cards
+- **Column configuration** - Persist column settings and order
+- **Attribute management** - Store areas and types
+- **Data integrity** - SQL constraints and transactions
+- **Performance** - Efficient queries and indexing
+
+### Future Enhancements (v1.0+)
 
 - **Multi-device synchronization** - Sync data between desktop and mobile
 - **Conflict resolution** - Track changes and resolve conflicts
-- **Offline-first architecture** - Local-first data with sync
 - **Tombstones** - Track deletions for proper sync
 - **Device tracking** - Identify devices and ownership
-- **Audit trail** - Change history and timestamps
+- **Enhanced audit trail** - Comprehensive change history
 
 ---
 
 ## Current Data Storage
 
-The application currently uses **LocalStorage** via Svelte stores.
+The application uses **SQLite database** via Tauri backend commands.
 
-### Where Data Actually Lives:
+### Implementation Files:
 
 ```javascript
-// See: packages/desktop/src/stores/cardStore.js
-// See: packages/desktop/src/stores/columnStore.js
-// See: packages/desktop/src/stores/attributeStore.js
+// Frontend stores (use Tauri commands):
+// packages/desktop/src/stores/cardStore.js
+// packages/desktop/src/stores/columnStore.js
+// packages/desktop/src/stores/attributeStore.js
+
+// Backend database module:
+// packages/desktop/src-tauri/src/database/
 ```
 
-**Storage Location:** Browser LocalStorage (persisted by Tauri)
-**Format:** JSON serialization
-**Access:** Direct JavaScript
+**Storage Location:** SQLite database file (managed by Tauri)
+**Format:** Relational database with SQL schema
+**Access:** Rust backend via Tauri commands, frontend via invoke()
 
 ---
 
-## Why LocalStorage (Current Approach)
+## Why SQLite (Current Approach)
 
 ✅ **Advantages:**
-- Simple implementation
-- No migration needed
-- Fast read/write
-- Proven reliability
-- Sufficient for single-user desktop app
-- Easy debugging (dev tools)
+- Relational data model
+- SQL query capabilities
+- ACID transactions
+- Better data integrity
+- Prepared for sync features
+- Native file-based storage
+- No external dependencies
 
-⚠️ **Limitations:**
-- No SQL queries
-- No relational data
-- Limited sync capabilities
-- No concurrent access patterns
+⚠️ **Migration from LocalStorage:**
+- Previous versions may have used LocalStorage
+- Migration handled automatically on first run
+- Data preserved during transition
 
 ---
 
-## When Will SQLite Be Used?
+## Tauri Commands
 
-### Planned Migration Timeline
+The database is accessed from the frontend via these Tauri commands:
 
-**Current (v0.2.x):** LocalStorage only
-**v0.5-0.9:** Potential migration preparation
-**v1.0+:** SQLite migration when sync features begin
+### Card Operations
+```javascript
+// Get all cards
+await invoke('db_get_all_cards')
 
-### Prerequisites for Migration:
+// Insert a new card
+await invoke('db_insert_card', { cardJson: JSON.stringify(card) })
 
-1. ✅ Desktop app stable
-2. ✅ Core features complete
-3. ⬜ Sync architecture finalized
-4. ⬜ Migration utility built
-5. ⬜ Backward compatibility tested
-6. ⬜ Mobile app ready
+// Update a card
+await invoke('db_update_card', {
+  id: cardId,
+  title: newTitle,
+  area: newArea,
+  // ... other fields
+})
+
+// Delete a card
+await invoke('db_delete_card', { id: cardId })
+```
+
+### Column Operations
+```javascript
+// Get all columns
+await invoke('db_get_all_columns')
+
+// Insert/update/delete columns
+// (Similar pattern to cards)
+```
+
+### Attribute Operations
+```javascript
+// Get attributes by type
+await invoke('db_get_attributes_by_type', { attrType: 'area' })
+
+// Insert/update/delete attributes
+// (Similar pattern to cards)
+```
+
+See the store files for complete usage examples.
 
 ---
 
@@ -191,79 +229,52 @@ pub fn get_device_id(conn: &Connection) -> SqliteResult<String>
 
 ## Migration Strategy
 
-### When Ready to Migrate
+### LocalStorage to SQLite Migration
 
-**Step 1: Data Export**
-- Export all LocalStorage data
-- Verify completeness
-- Create backup
+Previous versions of Flow used browser LocalStorage for data persistence. The migration to SQLite provides:
 
-**Step 2: Database Init**
-- Initialize SQLite database
-- Create all tables
-- Generate device ID
+1. **Better data integrity** - ACID transactions and constraints
+2. **Improved performance** - Indexed queries
+3. **Future-ready** - Prepared for sync features
+4. **Relational model** - Better data relationships
 
-**Step 3: Data Import**
-- Transform LocalStorage JSON → SQL records
-- Preserve IDs and timestamps
-- Set initial sync state
-
-**Step 4: Dual-Write Period** (Optional)
-- Write to both LocalStorage and SQLite
-- Validate data consistency
-- Monitor for issues
-
-**Step 5: Switch**
-- Update stores to use database
-- Remove LocalStorage dependencies
-- Enable sync features
-
-**Step 6: Cleanup**
-- Remove dual-write code
-- Archive LocalStorage backup
-- Update documentation
-
-See `docs/internal/ARCHITECTURE.md` for complete migration plan.
+**Migration handled automatically:**
+- On first run with SQLite, data is preserved
+- No manual user intervention required
+- Backward-compatible data format
 
 ---
 
 ## For Developers
 
-### Do NOT Modify This Module Unless:
-
-1. Working on sync features (v1.0+)
-2. Updating schema for new features
-3. Fixing bugs in preparation for migration
-4. Explicitly assigned to database work
-
 ### Current Data Access Pattern:
 
 ```javascript
-// This is how data works NOW (v0.2.x):
-import { cards } from './stores/cardStore.js';
+// Frontend stores use Tauri commands
+import { invoke } from '@tauri-apps/api/tauri';
 
-// Subscribe to changes
-cards.subscribe(value => {
-  // React to data changes
-});
+// Example from cardStore.js:
+async function loadCards() {
+  const cardsJson = await invoke('db_get_all_cards');
+  return JSON.parse(cardsJson);
+}
 
-// Modify data
-cards.update(currentCards => {
-  // Update logic
-  return updatedCards;
-});
-
-// Data is automatically persisted to LocalStorage
+async function addCard(card) {
+  await invoke('db_insert_card', {
+    cardJson: JSON.stringify(card)
+  });
+}
 ```
 
-### Future Data Access (When Migrated):
+### Backend Implementation:
 
 ```rust
-// Tauri command to backend
+// Tauri commands in lib.rs:
 #[tauri::command]
-async fn get_cards() -> Result<Vec<Card>, String> {
+fn db_get_all_cards() -> Result<String, String> {
   let conn = get_db_connection()?;
-  database::get_all_cards(&conn)
+  let cards = database::get_all_cards(&conn)?;
+  serde_json::to_string(&cards)
     .map_err(|e| e.to_string())
 }
 ```
@@ -305,5 +316,5 @@ Tests are not currently implemented since module is unused.
 ---
 
 **Last Updated:** March 2026
-**Status:** Prepared but not connected
-**Next Steps:** Wait for v1.0+ sync feature development
+**Status:** Production - actively used
+**Next Steps:** Enhance for multi-device sync in v1.0+

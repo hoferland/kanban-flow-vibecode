@@ -124,7 +124,7 @@ Flow is built using:
 
 - **Frontend**: Svelte 4 + Vite
 - **Backend**: Tauri 2 (Rust)
-- **Storage**: LocalStorage (browser-based, persisted)
+- **Storage**: SQLite database (via Tauri)
 - **Updates**: Tauri auto-updater with cryptographic signatures
 - **UI**: Custom CSS with Japandi-inspired design
 

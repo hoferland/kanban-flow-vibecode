@@ -18,7 +18,7 @@ flow-kanban/
 - **UI:** Svelte 4
 - **Build:** Vite 5
 - **Language:** JavaScript (ES modules)
-- **Database:** SQLite (via Tauri SQL plugin)
+- **Database:** SQLite (via Tauri backend commands)
 
 ### Shared Package
 - **Language:** JavaScript (ES modules)
@@ -30,52 +30,55 @@ flow-kanban/
 
 ## Data Storage Strategy
 
-### Current Implementation (v0.2.x)
+### Current Implementation
 
-**Storage:** Browser LocalStorage via Svelte stores
-- **Location:** Browser storage, persisted by Tauri
-- **Format:** JSON serialization
-- **Access:** Direct via JavaScript Svelte stores
+**Storage:** SQLite database via Tauri backend commands
+- **Location:** Local SQLite file managed by Tauri
+- **Format:** Relational database with SQL schema
+- **Access:** Rust backend via Tauri commands, frontend via invoke()
 
 **Implementation Files:**
-- `packages/desktop/src/stores/cardStore.js` - Card data management
-- `packages/desktop/src/stores/columnStore.js` - Column configuration
-- `packages/desktop/src/stores/attributeStore.js` - Areas and types
+- `packages/desktop/src/stores/cardStore.js` - Card data management (calls Tauri commands)
+- `packages/desktop/src/stores/columnStore.js` - Column configuration (calls Tauri commands)
+- `packages/desktop/src/stores/attributeStore.js` - Areas and types (calls Tauri commands)
+- `packages/desktop/src-tauri/src/database/` - SQLite backend implementation
 
-**Why LocalStorage:**
-- ✅ Simple, proven approach
-- ✅ No migration needed
-- ✅ Sufficient for single-user desktop
-- ✅ Fast read/write performance
-- ✅ Easy debugging via browser dev tools
+**Why SQLite:**
+- ✅ ACID transactions and data integrity
+- ✅ Efficient SQL queries and indexing
+- ✅ Relational data model
+- ✅ Prepared for multi-device sync
+- ✅ Native file-based storage
+- ✅ No external dependencies
 
-### Future Implementation (v1.0+)
+### Historical Context
 
-**Migration to SQLite:** Planned for multi-device sync features
+**Previous versions (pre-v0.3)** used browser LocalStorage for data persistence. The migration to SQLite provides better data integrity and prepares for future sync features.
 
-Rust SQLite implementation exists in `src-tauri/src/database/` but is **not currently connected**.
+### Future Enhancements (v1.0+)
 
-**Migration Plan:**
-1. Keep LocalStorage as primary storage until v1.0
-2. Build data migration utility
-3. Switch to SQLite when sync architecture is complete
-4. Database will provide:
-   - Sync metadata (device IDs, timestamps)
-   - Tombstones for deletions
-   - Conflict resolution data
-   - Offline-first architecture
+**Planned enhancements for multi-device sync:**
+
+Rust SQLite implementation in `src-tauri/src/database/` will be enhanced to support:
+
+**Sync Capabilities:**
+1. Multi-device synchronization between desktop and mobile
+2. Device ID tracking and ownership
+3. Tombstones for tracking deletions
+4. Conflict resolution metadata
+5. Enhanced audit trail with change history
+6. Offline-first architecture
 
 **Database Module:** See `packages/desktop/src-tauri/src/database/README.md` for details.
 
-**Why Wait:**
-- LocalStorage works perfectly for current single-user scope
-- Database adds complexity without current benefit
-- Can migrate data when sync features are ready
-- Allows us to validate data model before committing to schema
+**Timeline:**
+- Keep current SQLite implementation as primary storage
+- Add sync metadata tables when sync architecture is finalized
+- Enhance with conflict resolution when mobile app is ready
 
 ## Data Flow
 
-### Current (LocalStorage):
+### Current (SQLite):
 ```
 User Interaction
     ↓
@@ -83,7 +86,11 @@ Svelte Component
     ↓
 Svelte Store (cardStore, columnStore, etc.)
     ↓
-LocalStorage (automatic persistence)
+invoke() - Tauri command
+    ↓
+Rust Backend
+    ↓
+SQLite Database
 ```
 
 ### Future (SQLite + Sync):
@@ -92,7 +99,11 @@ User Interaction
     ↓
 Svelte Component
     ↓
-Tauri Command (Rust backend)
+Svelte Store (cardStore, columnStore, etc.)
+    ↓
+invoke() - Tauri command
+    ↓
+Rust Backend
     ↓
 SQLite Database
     ↓
