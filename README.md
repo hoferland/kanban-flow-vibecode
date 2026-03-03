@@ -8,7 +8,7 @@
 
 A lightweight, privacy-focused Kanban application designed for UX designers managing work across multiple teams.
 
-[Download Latest Release](https://github.com/hoferland/kanban-flow-vibecode/releases/latest) • [Installation Guide](docs/INSTALLATION_GUIDE.md) • [Documentation](docs/)
+[Download Latest Release](https://github.com/hoferland/kanban-flow-vibecode/releases/latest) • [Installation Guide](docs/external/INSTALLATION_GUIDE.md) • [Documentation](docs/)
 
 </div>
 
@@ -23,6 +23,7 @@ A lightweight, privacy-focused Kanban application designed for UX designers mana
 - 🎨 **Clean Design** - Minimalist interface inspired by Japandi aesthetics
 - ⚙️ **Customizable Columns** - Configure columns, limits, and workflow
 - 🏷️ **Flexible Filtering** - Filter by team, area, or work type
+- 📅 **Custom DatePicker** - Smart date selection with quick actions
 - 💾 **Auto-Save** - Changes saved instantly, no manual save needed
 
 ## 📥 Installation
@@ -33,7 +34,7 @@ A lightweight, privacy-focused Kanban application designed for UX designers mana
 2. **Install** by dragging Flow.app to your Applications folder
 3. **Launch** by right-clicking Flow → "Open" (first time only)
 
-For detailed installation instructions, see the [Installation Guide](docs/INSTALLATION_GUIDE.md).
+For detailed installation instructions, see the [Installation Guide](docs/external/INSTALLATION_GUIDE.md).
 
 #### macOS Quarantine Fix
 
@@ -155,11 +156,20 @@ For detailed release instructions, see [RELEASE.md](docs/RELEASE.md).
 
 ## 📚 Documentation
 
-- **[Installation Guide](docs/INSTALLATION_GUIDE.md)** - End-user installation instructions
-- **[Development Guide](docs/DEVELOPMENT.md)** - Setup for developers
-- **[Architecture](docs/ARCHITECTURE.md)** - Technical architecture overview
-- **[Release Guide](docs/RELEASE.md)** - Creating and publishing releases
-- **[Quick Start](docs/QUICK_START_RELEASE.md)** - Quick release process guide
+Documentation is organized into two categories:
+
+### 👥 For Users ([docs/external/](docs/external/))
+- **[Installation Guide](docs/external/INSTALLATION_GUIDE.md)** - Complete installation instructions
+- **[macOS Quarantine Fix](docs/external/MACOS_QUARANTINE_FIX.md)** - Troubleshooting security warnings
+- **[Quick Start Guide](#-quick-start-users)** - Getting started with Flow
+
+### 👨‍💻 For Developers ([docs/internal/](docs/internal/))
+- **[Development Guide](docs/internal/DEVELOPMENT.md)** - Development environment setup
+- **[Architecture](docs/internal/ARCHITECTURE.md)** - Technical architecture overview
+- **[Release Guide](docs/internal/RELEASE_GUIDE.md)** - Creating and publishing releases
+- **[Improvements Backlog](docs/internal/IMPROVEMENTS.md)** - Planned enhancements (PM/UX/Dev)
+- **[DatePicker Implementation](docs/internal/DATEPICKER_IMPLEMENTATION.md)** - Custom component reference
+- **[More...](docs/internal/)** - Testing guides, database docs, and more
 
 ## 🔐 Security & Privacy
 
@@ -239,18 +249,70 @@ xattr -cr /Applications/Flow.app
 1. Check active filter (switch to "All")
 2. Check data directory: `~/Library/Application Support/com.flow.kanban/`
 
-For more help, see [Installation Guide](docs/INSTALLATION_GUIDE.md) or [create an issue](https://github.com/hoferland/kanban-flow-vibecode/issues).
+For more help, see [Installation Guide](docs/external/INSTALLATION_GUIDE.md) or [create an issue](https://github.com/hoferland/kanban-flow-vibecode/issues).
 
 ## 🎯 Roadmap
 
-- [ ] Export/Import functionality
-- [ ] Dark mode
-- [ ] Custom themes
-- [ ] Keyboard shortcuts
-- [ ] Mobile app (React Native)
-- [ ] Card templates
-- [ ] Time tracking
-- [ ] Statistics and insights
+See [IMPROVEMENTS.md](docs/internal/IMPROVEMENTS.md) for a comprehensive list of planned enhancements.
+
+### Recently Completed ✅
+- **v0.2.2** - Custom DatePicker component with smart formatting and quick actions
+
+### Next Up (v0.3.0) - Stability & Quality
+- [ ] Error handling improvements
+- [ ] Data migration system
+- [ ] Basic test coverage
+- [ ] Enhanced documentation
+
+### Core Features (v0.4.0)
+- [ ] **Export/Import** - Backup and restore your data
+- [ ] **Search & Quick Find** - Find cards instantly
+- [ ] **Undo/Redo** - Safety net for accidental changes
+- [ ] **Keyboard Shortcuts** - Power user workflows
+
+### UX Polish (v0.5.0)
+- [ ] **Dark Mode** - Eye-friendly theme for low-light environments
+- [ ] **Visual WIP Limits** - Color-coded warnings for column limits
+- [ ] **Card Quick Actions** - Inline editing and quick menus
+- [ ] **Enhanced Filters** - Show active filters as dismissible tags
+
+### Power Features (v1.0.0)
+- [ ] **Analytics Dashboard** - Cycle time, throughput metrics
+- [ ] **Card Templates** - Predefined templates for recurring tasks
+- [ ] **Batch Operations** - Multi-select and bulk actions
+- [ ] **Enhanced Accessibility** - WCAG 2.1 AA compliance
+
+### Platform Expansion (v1.1.0+)
+- [ ] **Windows/Linux Support** - Cross-platform availability
+- [ ] **Mobile App** - React Native implementation
+- [ ] **TypeScript Migration** - Enhanced type safety
+- [ ] **Advanced Features** - Time tracking, recurring tasks, integrations
+
+<details>
+<summary><strong>📅 DatePicker Future Enhancements</strong></summary>
+
+The custom DatePicker is production-ready, but these optional enhancements could be added:
+
+#### Phase 2 - Advanced Interactions
+- [ ] Full keyboard navigation (arrow keys to navigate dates)
+- [ ] Tab order management throughout calendar
+- [ ] Enhanced screen reader announcements
+- [ ] Date range selection (start/end dates)
+
+#### Phase 3 - Power Features
+- [ ] Natural language parsing ("tomorrow", "next monday", "+3d")
+- [ ] Month/year quick picker (click to jump to any month/year)
+- [ ] Week numbers display for project planning
+- [ ] Custom date format preferences
+- [ ] Recurring date patterns
+
+#### Phase 4 - Customization
+- [ ] First day of week preference (Sunday vs Monday)
+- [ ] Configurable quick actions
+- [ ] Theme variants (dark mode support)
+- [ ] Optional time picker integration
+
+</details>
 
 ## 💡 Inspiration
 
@@ -265,7 +327,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## 👤 Author
 
-Created by hoferland
+Created with ❤️ for personal productivity
 
 ## 🙏 Acknowledgments
 
@@ -279,6 +341,6 @@ Created by hoferland
 
 **[⬆ Back to Top](#flow---personal-kanban-board)**
 
-Made with ❤️ for UX designers managing multiple teams
+Made with ❤️ in Heidelberg
 
 </div>
