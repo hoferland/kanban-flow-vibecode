@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 12px;
+      padding: 16px;
+      background: #ffffff;
+    }
+    .section-title {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #333;
+      font-size: 14px;
+    }
+    .form-group {
+      margin-bottom: 12px;
+    }
+    label {
+      display: block;
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: inherit;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #18a0fb;
+    }
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .btn-primary {
+      background: #18a0fb;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #0d8de3;
+    }
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      margin-top: 8px;
+    }
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+      margin-top: 8px;
+    }
+    .btn-danger:hover {
+      background: #c82333;
+    }
+    .card-form {
+      display: none;
+    }
+    .card-form.active {
+      display: block;
+    }
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .btn-row .btn {
+      flex: 1;
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Create Card Form -->
+  <div id="create-card-form" class="card-form">
+    <div class="section-title">Create New Card</div>
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="create-title" placeholder="Enter card title">
+    </div>
+    <div class="form-group">
+      <label>Area</label>
+      <select id="create-area"></select>
+    </div>
+    <div class="form-group">
+      <label>Type (optional)</label>
+      <select id="create-type">
+        <option value="">None</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" id="create-btn">Create Card</button>
+    <button class="btn btn-secondary" id="create-cancel-btn">Cancel</button>
+  </div>
+
+  <!-- Edit Card Form -->
+  <div id="edit-card-form" class="card-form">
+    <div class="section-title">Edit Card</div>
+    <input type="hidden" id="edit-id">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="edit-title">
+    </div>
+    <div class="form-group">
+      <label>Area</label>
+      <select id="edit-area"></select>
+    </div>
+    <div class="form-group">
+      <label>Type</label>
+      <select id="edit-type">
+        <option value="">None</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Column</label>
+      <select id="edit-column"></select>
+    </div>
+    <div class="form-group">
+      <label>Notes</label>
+      <textarea id="edit-notes" placeholder="Add notes..."></textarea>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" id="edit-save-btn">Save</button>
+      <button class="btn btn-secondary" id="edit-cancel-btn">Cancel</button>
+    </div>
+    <button class="btn btn-danger" id="edit-delete-btn">Delete Card</button>
+  </div>
+
+  <script>
+    let currentCardId = null;
+
+    // Handle messages from widget
+    window.onmessage = function(event) {
+      const msg = event.data.pluginMessage;
+      if (!msg) return;
+
+      if (msg.type === 'create-card') {
+        document.getElementById('create-card-form').classList.add('active');
+        document.getElementById('edit-card-form').classList.remove('active');
+
+        // Populate areas
+        if (msg.areas && msg.areas.length > 0) {
+          const select = document.getElementById('create-area');
+          select.innerHTML = msg.areas.map(function(a) {
+            return '<option value="' + a.id + '">' + a.label + '</option>';
+          }).join('');
+        }
+
+        // Populate types
+        if (msg.types && msg.types.length > 0) {
+          const select = document.getElementById('create-type');
+          select.innerHTML = '<option value="">None</option>' + msg.types.map(function(t) {
+            return '<option value="' + t.id + '">' + t.label + '</option>';
+          }).join('');
+        }
+      }
+
+      if (msg.type === 'edit-card') {
+        document.getElementById('create-card-form').classList.remove('active');
+        document.getElementById('edit-card-form').classList.add('active');
+
+        const card = msg.card;
+        currentCardId = card.id;
+
+        document.getElementById('edit-id').value = card.id;
+        document.getElementById('edit-title').value = card.title;
+        document.getElementById('edit-notes').value = card.notes || '';
+
+        // Populate areas
+        if (msg.areas && msg.areas.length > 0) {
+          const areaSelect = document.getElementById('edit-area');
+          areaSelect.innerHTML = msg.areas.map(function(a) {
+            return '<option value="' + a.id + '"' + (a.id === card.area ? ' selected' : '') + '>' + a.label + '</option>';
+          }).join('');
+        }
+
+        // Populate types
+        if (msg.types && msg.types.length > 0) {
+          const typeSelect = document.getElementById('edit-type');
+          typeSelect.innerHTML = '<option value="">None</option>' + msg.types.map(function(t) {
+            return '<option value="' + t.id + '"' + (t.id === card.type ? ' selected' : '') + '>' + t.label + '</option>';
+          }).join('');
+        }
+
+        // Populate columns
+        if (msg.columns && msg.columns.length > 0) {
+          const colSelect = document.getElementById('edit-column');
+          colSelect.innerHTML = msg.columns.map(function(c) {
+            return '<option value="' + c.id + '"' + (c.id === card.column ? ' selected' : '') + '>' + c.label + '</option>';
+          }).join('');
+        }
+      }
+    };
+
+    // Create card button
+    document.getElementById('create-btn').onclick = function() {
+      const title = document.getElementById('create-title').value.trim();
+      const area = document.getElementById('create-area').value;
+      const cardType = document.getElementById('create-type').value || null;
+
+      if (!title) {
+        alert('Please enter a title');
+        return;
+      }
+
+      parent.postMessage({
+        pluginMessage: {
+          type: 'create-card-submit',
+          title: title,
+          area: area,
+          cardType: cardType
+        }
+      }, '*');
+    };
+
+    // Create cancel button
+    document.getElementById('create-cancel-btn').onclick = function() {
+      parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+    };
+
+    // Edit save button
+    document.getElementById('edit-save-btn').onclick = function() {
+      const id = parseInt(document.getElementById('edit-id').value);
+      const title = document.getElementById('edit-title').value.trim();
+      const area = document.getElementById('edit-area').value;
+      const cardType = document.getElementById('edit-type').value || null;
+      const column = document.getElementById('edit-column').value;
+      const notes = document.getElementById('edit-notes').value;
+
+      if (!title) {
+        alert('Please enter a title');
+        return;
+      }
+
+      parent.postMessage({
+        pluginMessage: {
+          type: 'edit-card-submit',
+          id: id,
+          title: title,
+          area: area,
+          cardType: cardType,
+          column: column,
+          notes: notes
+        }
+      }, '*');
+    };
+
+    // Edit cancel button
+    document.getElementById('edit-cancel-btn').onclick = function() {
+      parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+    };
+
+    // Delete button
+    document.getElementById('edit-delete-btn').onclick = function() {
+      if (confirm('Are you sure you want to delete this card?')) {
+        const id = parseInt(document.getElementById('edit-id').value);
+        parent.postMessage({
+          pluginMessage: {
+            type: 'delete-card',
+            id: id
+          }
+        }, '*');
+      }
+    };
+  </script>
+</body>
+</html>

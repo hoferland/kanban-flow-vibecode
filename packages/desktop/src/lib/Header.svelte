@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { currentFilter } from '../stores/cardStore.js';
   import { getVersion } from '@tauri-apps/api/app';
+  import FigmaSyncStatus from './FigmaSyncStatus.svelte';
 
   export let onAddCard;
   export let onConfigureColumns;
@@ -50,6 +51,7 @@
       {/each}
     </div>
     <button class="config-btn" on:click={onConfigureColumns} title="Configure Columns" aria-label="Configure Columns">⚙</button>
+    <FigmaSyncStatus />
     <button class="add-btn" on:click={onAddCard}>New Card</button>
   </div>
 </div>

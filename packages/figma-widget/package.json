@@ -1,0 +1,17 @@
+{
+  "name": "flow-kanban-figma-widget",
+  "version": "0.1.0",
+  "description": "Figma widget for Flow Kanban with bidirectional sync",
+  "scripts": {
+    "build": "esbuild src/code.tsx --bundle --outfile=dist/code.js --target=es2020 --loader:.tsx=tsx",
+    "build:ui": "node scripts/build-ui.js",
+    "watch": "esbuild src/code.tsx --bundle --outfile=dist/code.js --target=es2020 --loader:.tsx=tsx --watch",
+    "dev": "npm run build && npm run build:ui"
+  },
+  "devDependencies": {
+    "@figma/widget-typings": "^1.9.1",
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.4.0"
+  }
+}
