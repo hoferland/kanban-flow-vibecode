@@ -110,8 +110,8 @@ Or use any text editor. Paste this template and **replace the placeholders**:
 **Replace:**
 - `PASTE_APPLE_SILICON_SIGNATURE_HERE` → The content from `Flow_0.1.1_aarch64.dmg.tar.gz.sig`
 - `PASTE_INTEL_SIGNATURE_HERE` → The content from `Flow_0.1.1_x64.dmg.tar.gz.sig`
-- `YOUR_USERNAME` → Your GitHub username (e.g., `hoferland`)
-- `YOUR_REPO` → Your repository name (e.g., `kanban-flow-vibecode`)
+- `YOUR_USERNAME` → Your GitHub username
+- `YOUR_REPO` → Your repository name
 - `2025-05-12T15:30:00Z` → Current date and time in UTC (format: YYYY-MM-DDTHH:MM:SSZ)
 
 **Example with real values:**
@@ -124,11 +124,11 @@ Or use any text editor. Paste this template and **replace the placeholders**:
   "platforms": {
     "darwin-aarch64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUNEtHN05qQk04cXovWW1JUnFMZjBGL1pXR...",
-      "url": "https://github.com/hoferland/kanban-flow-vibecode/releases/download/v0.1.1/Flow_0.1.1_aarch64.dmg.tar.gz"
+      "url": "https://github.com/YOUR_USERNAME/YOUR_REPO/releases/download/v0.1.1/Flow_0.1.1_aarch64.dmg.tar.gz"
     },
     "darwin-x86_64": {
       "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUNEtHN05qQk04cX...",
-      "url": "https://github.com/hoferland/kanban-flow-vibecode/releases/download/v0.1.1/Flow_0.1.1_x64.dmg.tar.gz"
+      "url": "https://github.com/YOUR_USERNAME/YOUR_REPO/releases/download/v0.1.1/Flow_0.1.1_x64.dmg.tar.gz"
     }
   }
 }
