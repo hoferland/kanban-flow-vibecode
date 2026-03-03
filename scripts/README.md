@@ -382,24 +382,6 @@ If you're adding new scripts:
 
 ---
 
-## 📝 Script Template
-
-When creating new scripts, use this template:
-
-```bash
-#!/bin/bash
-# Flow Kanban - [Script Name]
-# Purpose: [What it does]
-# Usage: ./scripts/[script-name].sh [args]
-# Prerequisites: [Required tools/config]
-
-set -e  # Exit on error
-
-# Your script here
-```
-
----
-
 **Last Updated:** March 2026
 **Maintained By:** Flow Kanban team
 **Questions?** See docs/internal/ or create an issue
