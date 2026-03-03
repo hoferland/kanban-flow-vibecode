@@ -100,19 +100,18 @@ npm run lint
 ```
 flow-kanban/
 ├── packages/
-│   ├── desktop/              # Tauri + Svelte desktop application
+│   ├── desktop/              # ✅ Tauri + Svelte desktop application (ACTIVE)
 │   │   ├── src/             # Svelte components and app logic
 │   │   ├── src-tauri/       # Rust backend (Tauri)
 │   │   └── public/          # Static assets
-│   ├── mobile/              # React Native (planned)
+│   ├── mobile/              # ⚠️ React Native (PLANNED - Not Implemented)
 │   └── shared/              # Shared business logic and models
 │       ├── src/models/      # Data models
 │       └── src/constants/   # Shared constants
 ├── docs/                    # Documentation
-│   ├── INSTALLATION_GUIDE.md
-│   ├── DEVELOPMENT.md
-│   ├── ARCHITECTURE.md
-│   └── RELEASE.md
+│   ├── external/            # User documentation
+│   ├── internal/            # Developer documentation
+│   └── archive/             # Historical documentation
 ├── scripts/                 # Build and release scripts
 │   ├── create-github-release.sh
 │   └── build-release.sh
