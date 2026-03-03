@@ -1,0 +1,20 @@
+{
+  "name": "Flow Kanban",
+  "id": "flow-kanban-widget",
+  "api": "1.0.0",
+  "widgetApi": "1.0.0",
+  "containsWidget": true,
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": [
+      "http://localhost:9899",
+      "ws://localhost:9899"
+    ],
+    "reasoning": "Connects to local Flow Kanban desktop app for bidirectional sync"
+  },
+  "capabilities": [],
+  "permissions": [],
+  "editorType": ["figma", "figjam"]
+}
