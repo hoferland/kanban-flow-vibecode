@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Flow Version](https://img.shields.io/badge/version-0.2.1-blue.svg)
+![Flow Version](https://img.shields.io/badge/version-0.4.1-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-macOS-lightgrey.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 

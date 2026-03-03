@@ -1,7 +1,7 @@
 {
   "name": "flow-desktop",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.4.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,9 @@
     "tauri:build": "tauri build"
   },
   "dependencies": {
+    "@flow/shared": "file:../shared",
     "@tauri-apps/api": "^1.5.3",
-    "@flow/shared": "file:../shared"
+    "lucide-svelte": "^0.561.0"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^3.0.1",

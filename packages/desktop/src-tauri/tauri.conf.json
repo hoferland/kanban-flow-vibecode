@@ -7,14 +7,15 @@
   },
   "package": {
     "productName": "Flow",
-    "version": "0.1.1"
+    "version": "0.4.1"
   },
   "tauri": {
     "allowlist": {
       "all": false,
       "dialog": {
         "open": true,
-        "save": true
+        "save": true,
+        "message": true
       },
       "fs": {
         "all": true,
@@ -24,12 +25,19 @@
         "all": true
       },
       "shell": {
-        "open": true
+        "open": true,
+        "scope": [
+          {
+            "name": "open-attachment",
+            "cmd": "",
+            "sidecar": false
+          }
+        ]
       }
     },
     "bundle": {
       "active": true,
-      "targets": ["app", "updater"],
+      "targets": ["app", "dmg", "updater"],
       "identifier": "com.flow.kanban",
       "icon": [
         "icons/favicon-32x32.png",
@@ -51,7 +59,8 @@
         "minWidth": 800,
         "minHeight": 600,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "fileDropEnabled": false
       }
     ],
     "updater": {
